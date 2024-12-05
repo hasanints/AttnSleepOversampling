@@ -126,6 +126,9 @@ def oversample_eeg_dataset(eeg_data, labels, oversample_all=True, class_to_overs
 
 
 # Fungsi oversampling yang telah dibuat sebelumnya
+import torch
+from collections import Counter
+
 def apply_oversampling(X_train, y_train, oversample_all=True, class_to_oversample=None, ratio=1.0):
     """
     Fungsi untuk menerapkan oversampling pada dataset X_train dan y_train.
@@ -153,7 +156,8 @@ def apply_oversampling(X_train, y_train, oversample_all=True, class_to_oversampl
     tuple: (numpy.ndarray, numpy.ndarray)
         Dataset X yang telah dioversampling dan label y yang telah dioversampling.
     """
-    # Menampilkan jumlah kelas sebelum oversampling
+    # Menghitung distribusi kelas sebelum oversampling
+    y_train = y_train.numpy() if isinstance(y_train, torch.Tensor) else y_train  # Convert tensor to numpy array
     print(f"Distribusi kelas sebelum oversampling: {Counter(y_train)}")
     
     # Mengubah X_train menjadi tensor
@@ -163,11 +167,13 @@ def apply_oversampling(X_train, y_train, oversample_all=True, class_to_oversampl
     # Terapkan oversampling dengan fungsi yang telah dibuat
     X_resampled, y_resampled = oversample_eeg_dataset(X_train_tensor, y_train_tensor, oversample_all, class_to_oversample, ratio)
     
-    # Menampilkan jumlah kelas setelah oversampling
+    # Menghitung distribusi kelas setelah oversampling
+    y_resampled = y_resampled.numpy() if isinstance(y_resampled, torch.Tensor) else y_resampled  # Convert tensor to numpy array
     print(f"Distribusi kelas setelah oversampling: {Counter(y_resampled)}")
     
     # Mengembalikan hasil dalam format numpy array
     return X_resampled.numpy(), y_resampled.numpy()
+
 
 
 def data_generator_np(training_files, subject_files, batch_size, oversample_all=None, class_to_oversample=None, ratio=1.0):
