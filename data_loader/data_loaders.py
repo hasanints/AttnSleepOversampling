@@ -170,7 +170,7 @@ def apply_oversampling(X_train, y_train, oversample_all=True, class_to_oversampl
     return X_resampled.numpy(), y_resampled.numpy()
 
 
-def data_generator_np(training_files, subject_files, batch_size, oversample_all=True, class_to_oversample=None, ratio=1.0):
+def data_generator_np(training_files, subject_files, batch_size, oversample_all=None, class_to_oversample=None, ratio=1.0):
     """
     Fungsi untuk memuat dataset, melakukan oversampling, dan mengembalikan DataLoader untuk training dan testing.
     
