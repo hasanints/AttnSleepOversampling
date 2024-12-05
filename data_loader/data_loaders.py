@@ -126,9 +126,6 @@ def oversample_eeg_dataset(eeg_data, labels, oversample_all=True, class_to_overs
 
 
 # Fungsi oversampling yang telah dibuat sebelumnya
-import torch
-from collections import Counter
-
 def apply_oversampling(X_train, y_train, oversample_all=True, class_to_oversample=None, ratio=1.0):
     """
     Fungsi untuk menerapkan oversampling pada dataset X_train dan y_train.
@@ -156,23 +153,31 @@ def apply_oversampling(X_train, y_train, oversample_all=True, class_to_oversampl
     tuple: (numpy.ndarray, numpy.ndarray)
         Dataset X yang telah dioversampling dan label y yang telah dioversampling.
     """
-    # Menghitung distribusi kelas sebelum oversampling
-    y_train = y_train.numpy() if isinstance(y_train, torch.Tensor) else y_train  # Convert tensor to numpy array
+    # Menampilkan distribusi kelas sebelum oversampling
     print(f"Distribusi kelas sebelum oversampling: {Counter(y_train)}")
     
-    # Mengubah X_train menjadi tensor
-    X_train_tensor = torch.tensor(X_train, dtype=torch.float32)
-    y_train_tensor = torch.tensor(y_train, dtype=torch.long)
+    # Mengubah X_train menjadi tensor jika masih berupa numpy array
+    if isinstance(X_train, np.ndarray):
+        X_train_tensor = torch.tensor(X_train, dtype=torch.float32)
+    else:
+        X_train_tensor = X_train
+        
+    if isinstance(y_train, np.ndarray):
+        y_train_tensor = torch.tensor(y_train, dtype=torch.long)
+    else:
+        y_train_tensor = y_train
     
     # Terapkan oversampling dengan fungsi yang telah dibuat
     X_resampled, y_resampled = oversample_eeg_dataset(X_train_tensor, y_train_tensor, oversample_all, class_to_oversample, ratio)
     
-    # Menghitung distribusi kelas setelah oversampling
-    y_resampled = y_resampled.numpy() if isinstance(y_resampled, torch.Tensor) else y_resampled  # Convert tensor to numpy array
+    # Menampilkan distribusi kelas setelah oversampling
+    if isinstance(y_resampled, torch.Tensor):
+        y_resampled = y_resampled.numpy()  # Convert to numpy array if it is still a tensor
     print(f"Distribusi kelas setelah oversampling: {Counter(y_resampled)}")
     
     # Mengembalikan hasil dalam format numpy array
-    return X_resampled.numpy(), y_resampled.numpy()
+    return X_resampled.numpy(), y_resampled
+
 
 
 
