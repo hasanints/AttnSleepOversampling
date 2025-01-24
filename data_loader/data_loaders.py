@@ -273,7 +273,7 @@ def apply_adasyn_1_1(X_train, y_train):
     print(f"Distribusi kelas sebelum ADASYN: {class_counts}")
     
     class_2_count = class_counts[2]
-    sampling_strategy = {1: class_2_count} 
+    sampling_strategy = {3: class_2_count} 
     
     adasyn = ADASYN(sampling_strategy=sampling_strategy, random_state=42)  
     
