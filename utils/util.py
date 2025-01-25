@@ -51,6 +51,13 @@ def load_folds_data(np_data_path, n_folds):
     print("Debug files_pairs sebelum np.array:")
     for idx, pair in enumerate(files_pairs):
         print(f"Pair ke-{idx}: {pair}, panjang: {len(pair) if isinstance(pair, list) else 'N/A'}")
+    
+    # Normalisasi panjang elemen di files_pairs
+    max_length = max(len(pair) for pair in files_pairs)
+    files_pairs = [
+        pair + [None] * (max_length - len(pair)) if len(pair) < max_length else pair
+        for pair in files_pairs
+    ]
 
     files_pairs = np.array(files_pairs)
     files_pairs = files_pairs[r_permute]
