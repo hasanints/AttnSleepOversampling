@@ -42,22 +42,16 @@ def load_folds_data(np_data_path, n_folds):
             files_dict[file_num] = [i]
         else:
             files_dict[file_num].append(i)
-    
-    # files_pairs = []
-    # for key in files_dict:
-    #     files_pairs.append(files_dict[key])
 
-    # # Periksa elemen dalam files_pairs sebelum mengubahnya menjadi array
-    # max_length = max(len(pair) for pair in files_pairs)
-    # files_pairs = [pair if len(pair) == max_length else pair + [None] * (max_length - len(pair)) for pair in files_pairs]
-
-    # # Konversi ke NumPy array
-    # files_pairs = np.array(files_pairs, dtype=object)  # dtype=object untuk menjaga fleksibilitas
-    # files_pairs = files_pairs[r_permute]
 
     files_pairs = []
     for key in files_dict:
         files_pairs.append(files_dict[key])
+    
+    print("Debug files_pairs sebelum np.array:")
+    for idx, pair in enumerate(files_pairs):
+        print(f"Pair ke-{idx}: {pair}, panjang: {len(pair) if isinstance(pair, list) else 'N/A'}")
+
     files_pairs = np.array(files_pairs)
     files_pairs = files_pairs[r_permute]
 
