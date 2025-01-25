@@ -52,14 +52,15 @@ def load_folds_data(np_data_path, n_folds):
     for idx, pair in enumerate(files_pairs):
         print(f"Pair ke-{idx}: {pair}, panjang: {len(pair) if isinstance(pair, list) else 'N/A'}")
     
-    # Normalisasi panjang elemen di files_pairs
-    max_length = max(len(pair) for pair in files_pairs)
+    # Normalisasi panjang elemen dalam files_pairs
+    max_length = max(len(pair) for pair in files_pairs)  # Panjang maksimum (dalam kasus ini: 2)
     files_pairs = [
         pair + [None] * (max_length - len(pair)) if len(pair) < max_length else pair
         for pair in files_pairs
     ]
 
-    files_pairs = np.array(files_pairs)
+    # Konversi ke array NumPy
+    files_pairs = np.array(files_pairs, dtype=object)
     files_pairs = files_pairs[r_permute]
 
     train_files = np.array_split(files_pairs, n_folds)
