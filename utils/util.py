@@ -44,16 +44,16 @@ def load_folds_data(np_data_path, n_folds):
             files_dict[file_num].append(i)
 
 
-    # files_pairs = []
-    # for key in files_dict:
-    #     files_pairs.append(files_dict[key])
-    
     files_pairs = []
-    for key, file_list in files_dict.items():
-        if len(file_list) == 2:
-            files_pairs.append(file_list)  # Tambahkan pasangan normal
-        elif len(file_list) == 1:
-            files_pairs.append(file_list + [None])  # Tambahkan file tunggal dengan pasangan None
+    for key in files_dict:
+        files_pairs.append(files_dict[key])
+    
+    # files_pairs = []
+    # for key, file_list in files_dict.items():
+    #     if len(file_list) == 2:
+    #         files_pairs.append(file_list)  # Tambahkan pasangan normal
+    #     elif len(file_list) == 1:
+    #         files_pairs.append(file_list + [None])  # Tambahkan file tunggal dengan pasangan None
         
     # print("Debug files_pairs sebelum np.array:")
     # for idx, pair in enumerate(files_pairs):
