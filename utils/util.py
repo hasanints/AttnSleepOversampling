@@ -44,20 +44,27 @@ def load_folds_data(np_data_path, n_folds):
             files_dict[file_num].append(i)
 
 
+    # files_pairs = []
+    # for key in files_dict:
+    #     files_pairs.append(files_dict[key])
+    
     files_pairs = []
-    for key in files_dict:
-        files_pairs.append(files_dict[key])
+    for key, file_list in files_dict.items():
+        if len(file_list) == 2:
+            files_pairs.append(file_list)  # Tambahkan pasangan normal
+        elif len(file_list) == 1:
+            files_pairs.append(file_list + [None])  # Tambahkan file tunggal dengan pasangan None
+        
+    # print("Debug files_pairs sebelum np.array:")
+    # for idx, pair in enumerate(files_pairs):
+    #     print(f"Pair ke-{idx}: {pair}, panjang: {len(pair) if isinstance(pair, list) else 'N/A'}")
     
-    print("Debug files_pairs sebelum np.array:")
-    for idx, pair in enumerate(files_pairs):
-        print(f"Pair ke-{idx}: {pair}, panjang: {len(pair) if isinstance(pair, list) else 'N/A'}")
-    
-    # Normalisasi panjang elemen dalam files_pairs
-    max_length = max(len(pair) for pair in files_pairs)  # Panjang maksimum (dalam kasus ini: 2)
-    files_pairs = [
-        pair + [None] * (max_length - len(pair)) if len(pair) < max_length else pair
-        for pair in files_pairs
-    ]
+    # # Normalisasi panjang elemen dalam files_pairs
+    # max_length = max(len(pair) for pair in files_pairs)  # Panjang maksimum (dalam kasus ini: 2)
+    # files_pairs = [
+    #     pair + [None] * (max_length - len(pair)) if len(pair) < max_length else pair
+    #     for pair in files_pairs
+    # ]
 
     # Konversi ke array NumPy
     files_pairs = np.array(files_pairs, dtype=object)
